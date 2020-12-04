@@ -58,9 +58,9 @@ export MEM_BOUND_THREADS=$((${TOTAL_MEM_KB} / (2 * 1000 * 1000))) # 2 GB / Build
 
 # Pick the smaller of the two as the default.
 if [ ${MEM_BOUND_THREADS} -lt ${CPU_BOUND_THREADS} ]; then
-  export PARLLEL_LEVEL=${MEM_BOUND_THREADS}
+  export PARALLEL_LEVEL=${MEM_BOUND_THREADS}
 else
-  export PARLLEL_LEVEL=${CPU_BOUND_THREADS}
+  export PARALLEL_LEVEL=${CPU_BOUND_THREADS}
 fi
 
 if [ "${QUIET}" == 0 ]; then
@@ -69,6 +69,6 @@ if [ "${QUIET}" == 0 ]; then
   echo "Total Mem:         ${TOTAL_MEM_KB} [kb]"
   echo "CPU Bound Threads: ${CPU_BOUND_THREADS} [threads]"
   echo "Mem Bound Threads: ${MEM_BOUND_THREADS} [threads]"
-  echo "Parallel Level:    ${PARLLEL_LEVEL} [threads]"
+  echo "Parallel Level:    ${PARALLEL_LEVEL} [threads]"
 fi
 

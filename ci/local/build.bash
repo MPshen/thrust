@@ -33,6 +33,11 @@ function usage {
   echo
   echo "-c, --clean"
   echo "  If the build directory already exists, delete it."
+  echo
+  echo "-p <plan>, --coverage-plan <plan>"
+  echo "  Coverage plan to use, either COMPLETE, THOROUGH, or MINIMAL"
+  echo "  (default: ${COVERAGE_PLAN})."
+  echo
 
   exit -3
 }
@@ -52,6 +57,8 @@ LOCAL_IMAGE=0
 SHELL_ONLY=0
 
 CLEAN=0
+
+COVERAGE_PLAN="MINIMAL"
 
 TARGETS=""
 
@@ -77,6 +84,11 @@ do
   --shell-only) SHELL_ONLY=1 ;;
   -c) ;&
   --clean) CLEAN=1 ;;
+  -p) ;&
+  --coverage-plan)
+    shift # The next argument is the image.
+    COVERAGE_PLAN="${1}"
+    ;;
   *)
     TARGETS="${TARGETS:+${TARGETS} }${1}"
     ;;
@@ -194,6 +206,7 @@ docker run --rm -it ${GPU_OPTS} \
   -v "${GROUP_PATH}":/etc/group:ro \
   -e "WORKSPACE=${REPOSITORY_PATH_IN_CONTAINER}" \
   -e "BUILD_TYPE=gpu" \
+  -e "COVERAGE_PLAN=${COVERAGE_PLAN}" \
   -e "PARALLEL_LEVEL=${PARALLEL_LEVEL}" \
   -w "${BUILD_PATH_IN_CONTAINER}" \
   "${IMAGE}" bash -c "${COMMAND}"
